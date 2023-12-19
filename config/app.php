@@ -12,7 +12,7 @@ return [
     |
     | This value is the name of your application. This value is used when the
     | framework needs to place the application's name in a notification or
-    | any other location as required by the application or its packages.
+    | any other location as required by the application or its p Darkaonline\L5Swagger\L5SwaggerServiceProvider::class,ackages.
     |
     */
 
@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ])->toArray(),
 
