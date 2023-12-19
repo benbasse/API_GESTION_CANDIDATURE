@@ -20,15 +20,19 @@ use App\Http\Controllers\CandidatureController;
 Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('formations/liste', [FormationController::class, 'index']);
+Route::post('user/inscription', [AuthController::class, 'inscription']);
+Route::get('user/listesAccepter', [AuthController::class, 'listesAccepter']);
 
 Route::post('login', [AuthController::class, 'login']);
-
-// Route::group(['middleware' => 'api', 'prefix' => 'auth', 'role' => 'user'], function ($router) {
-//     Route::post('logout', [AuthController::class, 'logout']);
-//     Route::post('refresh', [AuthController::class, 'refresh']);
-//     Route::post('me', [AuthController::class, 'me']);
-//     Route::post('candidater', [CandidatureController::class, 'candidater']);
-// });
+Route::middleware(['auth:api', 'acces:admin'])->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::put('refuser/{id}', [AuthController::class, 'refuser']);
+    Route::put('accepter/{id}', [AuthController::class, 'accepted']);
+    Route::post('formations/store', [FormationController::class, 'store']);
+    Route::put('formations/edit/{id}', [FormationController::class, 'update']);
+    Route::delete('formations/{formation}', [FormationController::class, 'destroy']);
+}); 
 Route::middleware(['auth:api', 'acces:user'])->group(function () {
     Route::post('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -39,34 +43,4 @@ Route::middleware(['auth:api', 'acces:user'])->group(function () {
     Route::get('user/listesNonAccepter', [AuthController::class, 'listesNonAccepter']);
     Route::get('user/listesNonAccepter', [AuthController::class, 'listesNonAccepter']);
 });
-
-
-
-Route::post('user/inscription', [AuthController::class, 'inscription']);
-Route::get('formations/liste', [FormationController::class, 'index']);
-Route::get('user/listesAccepter', [AuthController::class, 'listesAccepter']);
-// Route::get('/listesUser', [AuthController::class, 'index']);
-
-
-// Route::middleware(['auth:api', 'acces:admin'])->group(function () {
-//     Route::post('formations/store', [FormationController::class, 'store']);
-//     Route::delete('formations/{formation}', [FormationController::class, 'destroy']);
-//     Route::put('formations/edit/{id}', [FormationController::class, 'update']);
-    
-// });
-Route::middleware(['auth:api', 'acces:admin'])->group(function () {
-    Route::post('formations/store', [FormationController::class, 'store']);
-    Route::delete('formations/{formation}', [FormationController::class, 'destroy']);
-    Route::put('formations/edit/{id}', [FormationController::class, 'update']);
-    Route::put('accepter/{id}', [AuthController::class, 'accepted']);
-    Route::put('refuser/{id}', [AuthController::class, 'refuser']);
-    Route::post('logout', [AuthController::class, 'logout']);
-}); 
-
-// Route::get('/', function (){
-//     return response()->json([
-//         'message'=> 'Welcome to the laravel API'
-//     ]);
-// });
-
 
