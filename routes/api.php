@@ -41,6 +41,7 @@ Route::middleware(['auth:api', 'acces:user'])->group(function () {
 });
 
 
+
 Route::post('user/inscription', [AuthController::class, 'inscription']);
 Route::get('formations/liste', [FormationController::class, 'index']);
 Route::get('user/listesAccepter', [AuthController::class, 'listesAccepter']);
@@ -57,10 +58,15 @@ Route::middleware(['auth:api', 'acces:admin'])->group(function () {
     Route::post('formations/store', [FormationController::class, 'store']);
     Route::delete('formations/{formation}', [FormationController::class, 'destroy']);
     Route::put('formations/edit/{id}', [FormationController::class, 'update']);
-    Route::put('accepted/{id}', [AuthController::class, 'accepted']);
+    Route::put('accepter/{id}', [AuthController::class, 'accepted']);
+    Route::put('refuser/{id}', [AuthController::class, 'refuser']);
     Route::post('logout', [AuthController::class, 'logout']);
-    
-    // D'autres routes d'administration...
 }); 
+
+// Route::get('/', function (){
+//     return response()->json([
+//         'message'=> 'Welcome to the laravel API'
+//     ]);
+// });
 
 
